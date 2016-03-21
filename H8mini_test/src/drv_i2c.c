@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include "drv_i2c.h"
 #include "drv_time.h"
 
-#define I2CADDRESS 0x68
+
 
 #define WAITFORSTOP
 
@@ -132,7 +132,7 @@ unsigned int liberror;
 static unsigned int i2ccount = 0;
 
 
-void i2c_sendheader()
+void i2c_sendheader(int address)
 {
 	i2ccount = 0;
 	while (I2C_GetBitState(I2C1, I2C_FLAG_I2CBSY) && I2CTIMEOUTCONDITION)
@@ -143,16 +143,16 @@ void i2c_sendheader()
 		i2ccount++;
 	I2C_GetBitState(I2C1, I2C_FLAG_SBSEND);
 
-	I2C_SendData(I2C1, (I2CADDRESS << 1));
+	I2C_SendData(I2C1, (address << 1));
 	while (!I2C_StateDetect(I2C1, I2C_PROGRAMMINGMODE_MASTER_TRANSMITTER_ADDSEND) && I2CTIMEOUTCONDITION)
 		i2ccount++;
 
 }
 
-void i2c_writereg(int reg, int data)
+void i2c_writereg(int address, int reg, int data)
 {
 
-	i2c_sendheader();
+	i2c_sendheader(address);
 
 	I2C_SendData(I2C1, reg);
 	I2C_SendData(I2C1, data);
@@ -176,12 +176,12 @@ void i2c_writereg(int reg, int data)
 }
 
 
-int i2c_readreg(int reg)
+int i2c_readreg(int address, int reg)
 {
 	int data;
 
 
-	i2c_sendheader();
+	i2c_sendheader(address);
 
 	I2C_SendData(I2C1, reg);
 	while (I2C_StateDetect(I2C1, I2C_PROGRAMMINGMODE_MASTER_BYTE_TRANSMITTED) == ERROR && I2CTIMEOUTCONDITION)
@@ -196,7 +196,7 @@ int i2c_readreg(int reg)
 	  }
 
 // send receiveing address  
-	I2C_SendData(I2C1, (I2CADDRESS << 1) + 1);
+	I2C_SendData(I2C1, (address << 1) + 1);
 	while (!I2C_StateDetect(I2C1, I2C_PROGRAMMINGMODE_MASTER_RECEIVER_ADDSEND) && I2CTIMEOUTCONDITION)
 	  {
 		  i2ccount++;
@@ -224,14 +224,14 @@ int i2c_readreg(int reg)
 }
 
 
-int i2c_readdata(int reg, int *data, int size)
+int i2c_readdata(int address, int reg, int *data, int size)
 {
 	int index = 0;
 	int error = 0;
 	int i2ccount2 = 0;
 	int byteerror = 0;
 
-	i2c_sendheader();
+	i2c_sendheader(address);
 
 	I2C_SendData(I2C1, reg);
 
@@ -245,7 +245,7 @@ int i2c_readdata(int reg, int *data, int size)
 		  i2ccount++;
 	  }
 	// read address  
-	I2C_SendData(I2C1, (I2CADDRESS << 1) + 1);
+	I2C_SendData(I2C1, (address << 1) + 1);
 
 	I2C_Acknowledge_Enable(I2C1, ENABLE);
 

@@ -17,18 +17,26 @@ void gpio_init(void)
 	GPIO_InitStructure.GPIO_OType = GPIO_OTYPE_PP;
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PUPD_NOPULL;
 
-// port F       
+//BB2 - Disable LEDs for now in case pinout different on FY530. (FY530_LED_PINS_KNOWN)
+	
+// port F
+#ifdef FY530_LED_PINS_KNOWN	
 	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_0 | GPIO_PIN_1;
 	GPIO_Init(GPIOF, &GPIO_InitStructure);
+#endif
 
-// port B       
+// port B
+#ifdef FY530_LED_PINS_KNOWN	       
 	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_0;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+#endif
 
 // port A 
 // also used for serial out
 #ifndef SERIAL
+#ifdef FY530_LED_PINS_KNOWN	  
 	GPIO_InitStructure.GPIO_Pin = GPIO_PIN_2;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+#endif
 #endif
 }

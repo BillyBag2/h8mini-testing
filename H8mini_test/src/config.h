@@ -44,6 +44,8 @@
 
 
 
+// The BMI055 used on the FY530 has the following HW GYRO filter settings (Bandwidth) 523Hz/230Hz/116Hz/64Hz/47Hz/32Hz/23Hz/12Hz
+#define GYRO_LOW_PASS_FILTER_BMI055 BW_47HZ
 
 // Hardware gyro LPF filter frequency
 // gyro filter 0 = 260hz
@@ -67,10 +69,15 @@
 
 // this works only on newer boards (non mpu-6050)
 // on older boards the hw gyro setting controls the acc as well
+
+// BMI055 has seperate acc filter control. Bandwidths 1000Hz/500Hz/250Hz/125Hz/63Hz/31Hz/16Hz/8Hz
+#define ACC_LOW_PASS_FILTER_BMI055 PMU_BW_31HZ
+
 #define ACC_LOW_PASS_FILTER 5
 
-
-
+#define ADDRESS_6XXX 0x68
+#define BMI055_ACC_ADDRESS 0x18  // 0x18 or 0x19
+#define BMI055_GYR_ADDRESS 0x68  // 0x68 or 0x69
 
 // Headless mode
 // Only in acro mode

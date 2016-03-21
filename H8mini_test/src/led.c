@@ -22,6 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
+// BB2 - No idea which pins the LEDs are on for the FY530. I think there may be six all together.
+// BB2 - TODO Disable making the H8 pins outputs until pinout for FY530 is known. (Is this done in this file?)
+
 #include "gd32f1x0.h"
 #include "drv_time.h"
 #include "macros.h"
