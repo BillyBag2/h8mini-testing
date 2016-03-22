@@ -1,6 +1,8 @@
+# TOTALY UNTESTED!
+
 # BillyBag2 Fayee FY530 experiment.
 
-The fork by me (BillyBag2) is an experiment in protoing the code to a Fayee FY530. This uses the same proccessor as the original Eachine H8 mini but has some differeneces. Posible differences include...
+The fork by me (BillyBag2) is an experiment in porting the code to a Fayee FY530. This uses the same proccessor as the original Eachine H8 mini but has some differeneces. Posible differences include...
 
 6 DOF chip is a BMI055
 LEDs could be different locations. There may be six rather than four, as on the H8 mini.
